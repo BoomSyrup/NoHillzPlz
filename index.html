@@ -85,12 +85,20 @@
         directionsService.route({
           origin: document.getElementById('start').value,
           destination: document.getElementById('end').value,
-          travelMode: 'DRIVING'
+          travelMode: 'DRIVING',
+          provideRouteAlternatives: true
         }, function(response, status) {
           if (status === 'OK') {
               console.log("THIS IS THE RESPONSE:", response)
               console.log(response.routes["0"].legs["0"].steps["0"].lat_lngs["0"].lat)
-              directionsDisplay.setDirections(response);
+              tot = response.routes.length;
+              x = [];
+              for(i = 0; i < tot; i++){
+                x[i] = new google.maps.DirectionsRenderer;
+                x[i].setMap(directionsDisplay.getMap());
+                x[i].setDirections(response);
+                x[i].setRouteIndex(i);
+              }
           } else {
             window.alert('Directions request failed due to ' + status);
           }
@@ -98,7 +106,7 @@
       }
     </script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=KEY&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNPK_5DwF0usa1rf8q1eozcJR7Dn58k70&callback=initMap">
     </script>
   </body>
 </html>
