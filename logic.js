@@ -95,9 +95,17 @@ function calculateRoute()
 {
     var directionsService = new google.maps.DirectionsService;
     var directionsDisplay = new google.maps.DirectionsRenderer;
-    var autocompleteStart = new google.maps.places.Autocomplete(inputStart); 
-    var autocompleteEnd = new google.maps.places.Autocomplete(inputEnd); 
-    console.log(typeof autocompleteStart, typeof autocompleteEnd)
-
+    directionsService.route({
+        origin: inputStart.value,
+        destination: inputEnd.value,
+        travelMode: 'DRIVING'
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+            directionsDisplay.setMap(map);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
 }
 route.onclick = calculateRoute;
