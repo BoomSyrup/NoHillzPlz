@@ -7,14 +7,18 @@
   <body>
     <link rel="stylesheet" href="index.css">
     <div class="search">
-        <input type="text" name="start" placeholder="Search">
+        <input type="text" name="start" placeholder="Start" required>
     </div>
     <div class="search">
-        <input type="text" name = "end" placeholder="Search" autofocus>
+        <input type="text" name = "end" placeholder="End" autofocus>
+        <input type="button" value="Search">
     </div>
     <div id="route">
         <input type="button" name="route" value="Go">
     </div>
     <div id="map"></div>
+    <script src="logic.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNPK_5DwF0usa1rf8q1eozcJR7Dn58k70&libraries=places&callback=calculateRoute&callback=initMap"
+        async defer></script>
   </body>
 </html>
