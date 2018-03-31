@@ -50,8 +50,8 @@
         var directionsDisplay = new google.maps.DirectionsRenderer;
         var inputStart = document.getElementsByName("start")[0];
         var inputEnd = document.getElementsByName("end")[0];
-        var autocompleteStart = new google.maps.places.Autocomplete(inputStart); 
-        var autocompleteEnd = new google.maps.places.Autocomplete(inputEnd); 
+        var autocompleteStart = new google.maps.places.Autocomplete(inputStart);
+        var autocompleteEnd = new google.maps.places.Autocomplete(inputEnd);
         autocompleteStart.bindTo('bounds', map);
         autocompleteStart.addListener('place_changed', function() {
               var place = autocompleteStart.getPlace();
@@ -86,7 +86,7 @@
                 ].join(' ');
               }
         })
-        }; 
+        };
 
       function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
