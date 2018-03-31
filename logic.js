@@ -5,6 +5,24 @@
 var map, infoWindow;
 var inputStart = document.getElementsByName("start")[0];
 var inputEnd = document.getElementsByName("end")[0];
+document.addEventListener("DOMContentLoaded", function(){
+    var car = document.getElementById("car");
+    var bike = document.getElementById("bike");
+    car.onclick = function(){
+        if(!car.classList.contains("selected"))
+        {
+            car.classList.toggle("selected");
+            bike.classList.toggle("selected");
+        }
+    }
+    bike.onclick = function(){
+        if(!bike.classList.contains("selected"))
+        {
+            car.classList.toggle("selected");
+            bike.classList.toggle("selected");
+        }
+    }
+});
 function initMap() {
     var autocompleteStart = new google.maps.places.Autocomplete(inputStart); 
     var autocompleteEnd = new google.maps.places.Autocomplete(inputEnd); 
@@ -102,6 +120,7 @@ function calculateRoute()
         }, function(response, status) {
           if (status === 'OK') {
             directionsDisplay.setDirections(response);
+            console.log(response);
             directionsDisplay.setMap(map);
           } else {
             window.alert('Directions request failed due to ' + status);
