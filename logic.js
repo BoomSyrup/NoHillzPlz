@@ -5,6 +5,7 @@
 var map, infoWindow;
 var inputStart = document.getElementsByName("start")[0];
 var inputEnd = document.getElementsByName("end")[0];
+var route = document.getElementsByName("route")[0];
 document.addEventListener("DOMContentLoaded", function(){
     var car = document.getElementById("car");
     var bike = document.getElementById("bike");
@@ -26,12 +27,41 @@ document.addEventListener("DOMContentLoaded", function(){
 function initMap() {
     var autocompleteStart = new google.maps.places.Autocomplete(inputStart); 
     var autocompleteEnd = new google.maps.places.Autocomplete(inputEnd); 
+    var directionsService = new google.maps.DirectionsService;
+    var directionsDisplay = new google.maps.DirectionsRenderer;
+    infoWindow = new google.maps.InfoWindow;
     map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 34.052235, lng: -118.243683},
     zoom: 5
     });
-    infoWindow = new google.maps.InfoWindow;
-
+    directionsDisplay.setMap(map);
+    var onChangeHandler = function() {
+        calculateAndDisplayRoute(directionsService, directionsDisplay);
+        console.log('click')
+    };
+    route.onclick = onChangeHandler;
+    function calculateAndDisplayRoute(directionsService, directionsDisplay)
+    {
+        var car = document.getElementById("car");
+        var bike = document.getElementById("bike");
+        var travelMode;
+        if(car.classList.contains("selected"))
+            travelMode = 'DRIVING'
+        if(bike.classList.contains("selected"))
+            travelMode = 'BICYCLING'
+        directionsService.route({
+            origin: inputStart.value,
+            destination: inputEnd.value,
+            travelMode: travelMode
+            }, function(response, status) {
+              if (status === 'OK') {
+                directionsDisplay.setDirections(response);
+                console.log(response);
+              } else {
+                window.alert('Directions request failed due to ' + status);
+              }
+            });
+    }
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -103,28 +133,6 @@ autocompleteEnd.addListener('place_changed', function() {
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 infoWindow.setPosition(pos);
-infoWindow.setContent(browserHasGeolocation ?
-                      'Error: The Geolocation service failed.' :
-                      'Error: Your browser doesn\'t support geolocation.');
 infoWindow.open(map);
 }
-var route = document.getElementById("route");
-function calculateRoute()
-{
-    var directionsService = new google.maps.DirectionsService;
-    var directionsDisplay = new google.maps.DirectionsRenderer;
-    directionsService.route({
-        origin: inputStart.value,
-        destination: inputEnd.value,
-        travelMode: 'DRIVING'
-        }, function(response, status) {
-          if (status === 'OK') {
-            directionsDisplay.setDirections(response);
-            console.log(response);
-            directionsDisplay.setMap(map);
-          } else {
-            window.alert('Directions request failed due to ' + status);
-          }
-        });
-}
-route.onclick = calculateRoute;
+
