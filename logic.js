@@ -2,6 +2,9 @@
 // prompted by your browser. If you see the error "The Geolocation service
 // failed.", it means you probably did not give permission for the browser to
 // locate you.
+window.routes = window.routes || {}
+global_counter = 0;
+x= []
 var map, infoWindow;
 var inputStart = document.getElementsByName("start")[0];
 var inputEnd = document.getElementsByName("end")[0];
@@ -25,8 +28,8 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 });
 function initMap() {
-    var autocompleteStart = new google.maps.places.Autocomplete(inputStart); 
-    var autocompleteEnd = new google.maps.places.Autocomplete(inputEnd); 
+    var autocompleteStart = new google.maps.places.Autocomplete(inputStart);
+    var autocompleteEnd = new google.maps.places.Autocomplete(inputEnd);
     var directionsService = new google.maps.DirectionsService;
     var directionsDisplay = new google.maps.DirectionsRenderer;
     infoWindow = new google.maps.InfoWindow;
@@ -52,11 +55,28 @@ function initMap() {
         directionsService.route({
             origin: inputStart.value,
             destination: inputEnd.value,
-            travelMode: travelMode
+            travelMode: travelMode,
+            provideRouteAlternatives: true
             }, function(response, status) {
               if (status === 'OK') {
                 directionsDisplay.setDirections(response);
-                console.log(response);
+                tot = response.routes.length;
+                console.log('total is '+ tot)
+                i = 0;
+                var min = 0
+                for(i = 0; i < tot; i++){ //for each route
+                  window.routes[i] = {
+                    segments:[] //create segment array for route
+                  }
+                  x[i] = new google.maps.DirectionsRenderer; //draw route
+                  x[i].setMap(directionsDisplay.getMap());
+                   x[i].setDirections(response);
+                   x[i].setRouteIndex(i);
+                 }
+                 for(var j = 0; j < tot; j++){
+                   route_stdDev(response, j);//call to calculate elevation for routes
+                  }
+
               } else {
                 window.alert('Directions request failed due to ' + status);
               }
@@ -129,9 +149,8 @@ autocompleteEnd.addListener('place_changed', function() {
         ].join(' ');
       }
 })
-}; 
+};
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     console.log("error")
 }
-

@@ -1,6 +1,8 @@
 window.routes = window.routes || {} // hold all data of routes
 global_counter = 0; //counter for routes done
      delay = 1000; // delay amount for over_query_limit
+     correct_route = 0;
+     donebit =0
 
 /*******
 route_stdDev
@@ -14,6 +16,7 @@ Todo (possibilities): scale amount of samplings by the distance traveled per seg
 ****/
 function route_stdDev(response, indexroute) {
   var elevator = new google.maps.ElevationService;
+  console.log('routing')
    route_array = response.routes;
    latlng_array  = route_array[indexroute].overview_path;
    for(i = 1; i < latlng_array.length; i++){ //segment out path
@@ -24,7 +27,7 @@ function route_stdDev(response, indexroute) {
 
      elevator.getElevationAlongPath({ //sample 5 elevation points of segment
        'path': path,
-       'samples': 5
+       'samples': 8
      },plotElevation.bind(null, latlng_array.length, indexroute, response.routes.length));
    }}
    /*******
@@ -60,10 +63,27 @@ function plotElevation( segments_length, route_index , routeslength, elevations,
     global_counter += 1;
   }
   if( global_counter ==routeslength){//judging
-    for(i = 0; i < 3; i ++){
-    console.log('Route ' + i+ ': ' + window.routes[i].std);}
+    console.log('done!')
+     correct_route = 0;
+     console.log('route 0: ' + window.routes[0].std)
+    for(i = 1; i < routeslength; i ++){
+      if(window.routes[i].std< window.routes[correct_route].std){
+          correct_route = i;
+      }
+      console.log('route' + i + ' '+ window.routes[i].std)}
+      console.log(correct_route)
+       map_replace = x[correct_route].getMap();
+       dir = x[correct_route].getDirections();
+       x[correct_route].setMap(null);
+       x[correct_route] = null;
+      x[correct_route] = new google.maps.DirectionsRenderer({ polylineOptions: { strokeColor: "Purple" } }); //draw route
+      x[correct_route].setMap(map_replace);
+      x[correct_route].setDirections(dir);
+      x[correct_route].setRouteIndex(correct_route);
+
+    }
   }
-}
+
 /*******
 standardDeviation
 input: array values
