@@ -34,30 +34,46 @@
   }
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
   directionsDisplay.setMap(map);
+
+  calculateAndDisplayRoute(directionsService, directionsDisplay);
 }
+/*******
+standardDeviation
+input: directionsService, directionsDisplay
+output: none
+effect: displays all routes to between two destinations and calculates which route is 'best'
+****/
       function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-        directionsService.route({
-          origin: haight,
-       destination: oceanBeach,
+        directionsService.route({ //getting the route from google
+          origin: {lat: 37.77, lng: -122.447},
+       destination: {lat: 37.768, lng: -122.511},
           travelMode: 'DRIVING',
           provideRouteAlternatives: true
-        }, function(response, status) {
+        }, function(response, status) { //return data and status
           if (status === 'OK') {
             console.log("THIS IS THE RESPONSE:", response)
               tot = response.routes.length;
               x = [];
-              for(i = 0; i < tot; i++){
+              i = 0;
+              for(i = 0; i < tot; i++){ //for each route
                 window.routes[i] = {
-                  segments:[]
+                  segments:[] //create segment array for route
                 }
-                x[i] = new google.maps.DirectionsRenderer;
+                x[i] = new google.maps.DirectionsRenderer; //draw route
                 x[i].setMap(directionsDisplay.getMap());
                 x[i].setDirections(response);
                 x[i].setRouteIndex(i);
-                route_stdDev(response, i);
               }
+               for(var j = 0; j < tot; j++){
+                   route_stdDev(response, j);//call to calculate elevation for routes
+                }
+               /**route_stdDev(response, 0);
 
-          } else {
+                route_stdDev(response, 1);
+                route_stdDev(response, 2);**/
+
+          }
+          else {
             console.log('Directions request failed due to ' + status);
           }
         });
