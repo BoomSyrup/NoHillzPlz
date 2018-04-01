@@ -2,22 +2,53 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: rgb(0,191,255);
-
+    background-color: rgb(30,144,255);
 }
-
+#options{
+    position: fixed;
+    top:0;
+    right:0%;
+}
 i{
-
     display: inline-block;
     color: rgba(250,250,250,0.4);
+    font-size: 30pt;
+    margin-top: 10px;
+    margin-right: 10px;
+    align: right;
 }
 .selected{
     color: white;
 }
-.search
+#car
+{
+    margin-left:10px;
+}
+
+input[type="text"]
 {
     display: inline-block;
-    float: left;
+    float:left;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    height:10%;
+    font-size: 20pt;
+    margin-right: 3px;
+    margin-left: 3px;
+    width: 43%;
+    color: rgba(255,255,255,0.9)
+}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: rgba(255, 255, 255, 0.9);
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: rgba(255, 255, 255, 0.9);
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: rgba(255, 255, 255, 0.9);
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: rgba(255, 255, 255, 0.9);
 }
 #map {
     height: 90%;
@@ -27,4 +58,10 @@ i{
     left: 0; 
 }
  
-
+#route
+{
+    margin-top: 5px;
+    color: white;
+    font-size: 40pt;
+    cursor: pointer;
+}

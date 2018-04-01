@@ -5,7 +5,7 @@
 var map, infoWindow;
 var inputStart = document.getElementsByName("start")[0];
 var inputEnd = document.getElementsByName("end")[0];
-var route = document.getElementsByName("route")[0];
+var route = document.getElementById("route");
 document.addEventListener("DOMContentLoaded", function(){
     var car = document.getElementById("car");
     var bike = document.getElementById("bike");
@@ -132,7 +132,6 @@ autocompleteEnd.addListener('place_changed', function() {
 }; 
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-infoWindow.setPosition(pos);
-infoWindow.open(map);
+    console.log("error")
 }
 
