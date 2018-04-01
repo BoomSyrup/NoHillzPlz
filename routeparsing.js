@@ -76,7 +76,7 @@ function plotElevation( segments_length, route_index , routeslength, elevations,
        dir = x[correct_route].getDirections();
        x[correct_route].setMap(null);
        x[correct_route] = null;
-      x[correct_route] = new google.maps.DirectionsRenderer({ polylineOptions: { strokeColor: "Purple" } }); //draw route
+      x[correct_route] = new google.maps.DirectionsRenderer({ polylineOptions: { strokeColor: "Green" } }); //draw route
       x[correct_route].setMap(map_replace);
       x[correct_route].setDirections(dir);
       x[correct_route].setRouteIndex(correct_route);
