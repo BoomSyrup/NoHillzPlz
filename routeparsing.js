@@ -27,7 +27,7 @@ function route_stdDev(response, indexroute) {
 
      elevator.getElevationAlongPath({ //sample 5 elevation points of segment
        'path': path,
-       'samples': 8
+       'samples': 5
      },plotElevation.bind(null, latlng_array.length, indexroute, response.routes.length));
    }}
    /*******
@@ -99,7 +99,6 @@ function plotElevation( segments_length, route_index , routeslength, elevations,
         } ],
         "autoGridCount": false
         })
->>>>>>> Stashed changes
   }
 }
 /*******
