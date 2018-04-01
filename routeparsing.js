@@ -27,7 +27,7 @@ function route_stdDev(response, indexroute) {
 
      elevator.getElevationAlongPath({ //sample 5 elevation points of segment
        'path': path,
-       'samples': 8
+       'samples': 5
      },plotElevation.bind(null, latlng_array.length, indexroute, response.routes.length));
    }}
    /*******
@@ -84,14 +84,31 @@ function plotElevation( segments_length, route_index , routeslength, elevations,
        dir = x[correct_route].getDirections();
        x[correct_route].setMap(null);
        x[correct_route] = null;
-      x[correct_route] = new google.maps.DirectionsRenderer({ polylineOptions: { strokeColor: "Green" } }); //draw route
-      x[correct_route].setMap(map_replace);
-      x[correct_route].setDirections(dir);
-      x[correct_route].setRouteIndex(correct_route);
-
-    }
+       x[correct_route] = new google.maps.DirectionsRenderer({ polylineOptions: { strokeColor: "Green" } }); //draw route
+       x[correct_route].setMap(map_replace);
+       x[correct_route].setDirections(dir);
+       x[correct_route].setRouteIndex(correct_route);
+      var colData = [];
+      for(var i = 0; i < elevatorArr.length ; ++i)
+      {
+        colData[i] = {"":i,"elevation" : elevatorArr[i]}
+      }
+      var chart = AmCharts.makeChart( "elevation_chart", {
+        "type": "serial",
+        "theme": "light",
+        "dataProvider": colData,
+        "categoryField": "",
+        "graphs": [ {
+        "balloonText": "[[category]]: <b>[[value]]</b>",
+        "fillAlphas": 0.8,
+        "lineAlpha": 0.2,
+        "type": "column",
+        "valueField": "elevation",
+        } ],
+        "autoGridCount": false
+        })
   }
-
+}
 /*******
 standardDeviation
 input: array values
